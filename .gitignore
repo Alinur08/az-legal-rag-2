@@ -1,0 +1,31 @@
+# Secrets and local configurations
+.env
+*.env
+
+# Python compilation and cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Local Vector Database persistence (rebuilt with `python -m src.indexing.build_index`)
+data/chroma_db/
+data/qdrant_db/
+
+# IDE and OS metadata
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+scratch/
