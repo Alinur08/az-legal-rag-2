@@ -19,55 +19,6 @@ Unlike single-shot legal search engines (such as e-qanun.ai), **az-legal-rag** i
 
 ---
 
-## 📋 Team & Project Kanban Board
-
-```mermaid
-graph LR
-    subgraph BACKLOG["📋 Backlog (Phases 6.5 - 11)"]
-        direction TB
-        B1["Phase 6.5: Train ML Classifier (bge-m3)"]
-        B2["Phase 7: CaseState & Session Store"]
-        B3["Phase 8: Multi-turn Dialogue"]
-        B4["Phase 9: Complaint Generation (Ərizə)"]
-        B5["Phase 10: Streamlit UI"]
-        B6["Phase 11: Final Audit"]
-    end
-
-    subgraph IN_PROGRESS["⚙️ In Progress (Phases 4 - 6)"]
-        direction TB
-        P1["Phase 4: Guardrails & Citation Filter"]
-        P2["Phase 5: One-shot QA Generation"]
-        P3["Phase 6: Dispute Slot Schema"]
-    end
-
-    subgraph DONE["✅ Done (Phases 0 - 3)"]
-        direction TB
-        D0["Phase 0: Architecture & Specs<br>👤 Ibrahim Ramazanzada"]
-        D1["Phase 1: PDF Ingestion (325 Articles)<br>👤 Ibrahim Ramazanzada"]
-        D2["Phase 2: bge-m3 & BM25 Indexing<br>👤 Xeyransa Gorchuyeva"]
-        D3["Phase 3: Hybrid Retrieval & Demo<br>👤 Alinur Zamanli"]
-    end
-
-    DONE --> IN_PROGRESS --> BACKLOG
-```
-
-| Phase | Module / Responsibility | Assignee | Status | Deliverable |
-| :--- | :--- | :--- | :---: | :--- |
-| **Phase 0** | Project Specifications, Standards & Env Config | **Ibrahim Ramazanzada** | `DONE` ✅ | `src/config.py`, `requirements.txt` |
-| **Phase 1** | PDF Ingestion, Diacritic Cleaner & 325 Articles Parser | **Ibrahim Ramazanzada** | `DONE` ✅ | `src/ingestion/`, `data/processed/articles.json` |
-| **Phase 2** | Contextual Chunking, `bge-m3` Embeddings & BM25 Index | **Xeyransa Gorchuyeva** | `DONE` ✅ | `src/indexing/`, `data/chroma_db/`, `bm25_index.pkl` |
-| **Phase 3** | Hybrid RRF Retrieval Engine ($k=60$) & Benchmark CLI | **Alinur Zamanli** | `DONE` ✅ | `src/retrieval/`, `demo.py` |
-| **Phase 4** | Retrieval Thresholds, Citation Validation & Guardrails | *Team* | `IN PROGRESS` ⚙️ | `src/guardrails/` |
-| **Phase 5** | Grounded One-Shot Legal QA Generation | *Team* | `TODO` 📋 | `src/generation/qa_prompts.py` |
-| **Phase 6** | Dispute Categories & Slot Schema Definition | *Team* | `TODO` 📋 | `src/dialogue/slot_schema.py` |
-| **Phase 6.5**| **Trained ML Dispute Classifier** (Logistic Regression on `bge-m3`) | *Team* | `TODO` 📋 | `notebooks/`, `category_classifier.py` |
-| **Phase 7-8**| CaseState, Session Persistence & Multi-Turn Dialogue | *Team* | `PLANNED` 📅 | `src/dialogue/` |
-| **Phase 9** | Structured Legal Complaint Generation (*Ərizə Layihəsi*) | *Team* | `PLANNED` 📅 | `src/generation/case_prompts.py` |
-| **Phase 10**| Streamlit Web Application & Interactive UI | *Team* | `PLANNED` 📅 | `app/` |
-| **Phase 11**| System Audit, pycodestyle Compliance & Evaluation | *Team* | `PLANNED` 📅 | Walkthrough & Benchmarks |
-
----
-
 ## 📂 Project Structure
 
 ```text

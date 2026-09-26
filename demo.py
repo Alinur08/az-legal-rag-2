@@ -8,6 +8,7 @@ Azerbaijani Labour Code.
 import argparse
 import sys
 from src.config import settings
+from src.guardrails import is_relevant
 from src.ingestion.validate_parser import validate_articles_file
 from src.retrieval.retriever import LegalRetriever
 
@@ -16,7 +17,7 @@ def print_banner():
     """Prints presentation header."""
     print("=" * 70)
     print("   AZ-LEGAL-RAG: ƏMƏK MƏCƏLLƏSİ RAG ASSİSTENTİ (DEMO & EVAL)")
-    print("   Phases 0-3: Ingestion, Parsing, Chunking & Hybrid Retrieval")
+    print("   Phases 0-4: Ingestion, Chunking, Hybrid Retrieval & Guardrails")
     print("=" * 70)
 
 
@@ -51,6 +52,10 @@ def run_benchmark():
             "Sınaq müddəti şərtləri",
             "işə qəbul zamanı sınaq müddəti ən çox nə qədər ola bilər?"
         ),
+        (
+            "Qeyri-müvafiq sual (Guardrail testi)",
+            "tort necə bişirilir və ya sobada neçə dərəcədə bişməlidir?"
+        ),
     ]
 
     retriever = LegalRetriever()
@@ -61,8 +66,9 @@ def run_benchmark():
         print(f"Sual (Query): \"{query}\"")
         results = retriever.retrieve(query, top_k=2)
 
-        if not results:
-            print("  Nəticə tapılmadı.")
+        if not results or not is_relevant(query, results):
+            print("\n  🛡️ [GUARDRAIL İŞƏ DÜŞDÜ: Qeyri-müvafiq sual bloklandı]")
+            print(f"  {settings.NO_ARTICLE_FALLBACK_AZ}")
             continue
 
         for r in results:
@@ -98,8 +104,14 @@ def run_interactive():
                 break
 
             results = retriever.retrieve(query, top_k=3)
-            if not results:
+            if not results or not is_relevant(query, results):
+                print("\n  🛡️ [QORUYUCU MEXANİZM (GUARDRAIL) İŞƏ DÜŞDÜ]")
+                print(
+                    "  Sualın Əmək Məcəlləsi ilə əlaqəsi "
+                    "və ya etibarlılıq balı kifayət deyil."
+                )
                 print(f"  {settings.NO_ARTICLE_FALLBACK_AZ}")
+                print(f"\n{settings.LEGAL_DISCLAIMER_AZ}")
                 continue
 
             print(f"\nTapılmış nəticələr ({len(results)} ədəd):")
