@@ -37,7 +37,8 @@ class TestCitationValidator(unittest.TestCase):
         ]
 
     def check_answer(self, answer, retrieved, cited, unsupported):
-        result = validate_article_citations(answer, self.make_results(*retrieved))
+        results = self.make_results(*retrieved)
+        result = validate_article_citations(answer, results)
         self.assertEqual(result.cited_articles, cited)
         self.assertEqual(result.unsupported_articles, unsupported)
         self.assertEqual(result.is_valid, not unsupported)
@@ -56,7 +57,8 @@ class TestCitationValidator(unittest.TestCase):
 
     def test_dative_article(self):
         self.check_answer(
-            "Azərbaycan Respublikası Əmək Məcəlləsinin 70-ci maddəsinə əsasən...",
+            "Azərbaycan Respublikası Əmək Məcəlləsinin "
+            "70-ci maddəsinə əsasən...",
             ["70"], ["70"], [],
         )
 
@@ -78,7 +80,9 @@ class TestCitationValidator(unittest.TestCase):
         self.check_answer("Maddə 70 və 70-ci maddə", ["70"], ["70"], [])
 
     def test_unrelated_number(self):
-        self.check_answer("İşçi 30 gün ərzində müraciət edə bilər.", [], [], [])
+        self.check_answer(
+            "İşçi 30 gün ərzində müraciət edə bilər.", [], [], []
+        )
 
     def test_empty_retrieved_results(self):
         self.check_answer("70-ci maddə", [], ["70"], ["70"])
@@ -93,7 +97,8 @@ class TestCitationValidator(unittest.TestCase):
         for retrieved in (["70", "77"], ["77", "70", "70"]):
             with self.subTest(retrieved=retrieved):
                 self.check_answer(
-                    "99-cu və 78-ci maddələr. Maddə 70. Maddə 99. 78-ci maddə.",
+                    "99-cu və 78-ci maddələr. Maddə 70. "
+                    "Maddə 99. 78-ci maddə.",
                     retrieved, ["99", "78", "70"], ["99", "78"],
                 )
 

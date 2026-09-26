@@ -42,7 +42,8 @@ class TestLegalDisclaimer(unittest.TestCase):
         self.assertEqual(add_legal_disclaimer(text, "en"), text)
 
     def test_unsupported_language(self):
-        with self.assertRaisesRegex(ValueError, "Unsupported language.*Use 'az' or 'en'"):
+        pattern = "Unsupported language.*Use 'az' or 'en'"
+        with self.assertRaisesRegex(ValueError, pattern):
             add_legal_disclaimer("Cavab", "fr")
 
     def test_original_text_preserved(self):

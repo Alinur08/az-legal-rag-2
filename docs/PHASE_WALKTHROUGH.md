@@ -12,8 +12,8 @@ This document records the design decisions, implemented files, testing outputs, 
 | **Phase 1** | PDF Ingestion, Diacritic Cleaner & 325 Articles Parser | **Ibrahim Ramazanzada** | `COMPLETED` ✅ |
 | **Phase 2** | Clause Chunking (476 chunks), `bge-m3` Embeddings & BM25 | **Xeyransa Gorchuyeva** | `COMPLETED` ✅ |
 | **Phase 3** | Hybrid RRF Retrieval ($k=60$) & Benchmark CLI Demo | **Alinur Zamanli** | `COMPLETED` ✅ |
-| **Phase 4** | Retrieval Confidence Thresholds & Citation Guardrails | *Team* | `IN PROGRESS` ⚙️ |
-| **Phase 5** | Grounded One-Shot Legal QA Generation | *Team* | `TODO` 📋 |
+| **Phase 4** | Retrieval Confidence Thresholds & Citation Guardrails | *Team* | `COMPLETED` ✅ |
+| **Phase 5** | Grounded One-Shot Legal QA Generation | *Team* | `IN PROGRESS` ⚙️ |
 | **Phase 6 & 6.5** | Dispute Slot Schema & **Trained ML Classifier (`bge-m3`)** | *Team* | `TODO` 📋 |
 | **Phase 7-8** | CaseState, Session Store & Multi-Turn Dialogue Flow | *Team* | `PLANNED` 📅 |
 | **Phase 9-10** | Legal Complaint Generation (*Ərizə*) & Streamlit App | *Team* | `PLANNED` 📅 |

@@ -1,4 +1,4 @@
-"""Validate explicit Azerbaijani article references against retrieved context."""
+"""Validate explicit article references against retrieved context."""
 
 import re
 from dataclasses import dataclass
@@ -42,7 +42,8 @@ def validate_article_citations(
     retrieved_articles = set()
     for result in results:
         number = str(result.article_number).strip()
-        retrieved_articles.add(str(int(number)) if number.isdecimal() else number)
+        norm_num = str(int(number)) if number.isdecimal() else number
+        retrieved_articles.add(norm_num)
 
     cited_articles = []
     for match in _CITATION_PATTERN.finditer(answer):

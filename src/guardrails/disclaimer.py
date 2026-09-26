@@ -14,7 +14,9 @@ def add_legal_disclaimer(text: str, language: str = "az") -> str:
     elif language == "en":
         disclaimer = settings.LEGAL_DISCLAIMER_EN
     else:
-        raise ValueError(f"Unsupported language: {language!r}. Use 'az' or 'en'.")
+        raise ValueError(
+            f"Unsupported language: {language!r}. Use 'az' or 'en'."
+        )
 
     if disclaimer in text:
         return text

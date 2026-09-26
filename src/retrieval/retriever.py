@@ -211,6 +211,11 @@ class LegalRetriever:
                 )
             )
 
+        # Sort by final confidence score and assign 1-indexed ranks
+        output_chunks.sort(key=lambda x: x.score, reverse=True)
+        for idx, chunk in enumerate(output_chunks, start=1):
+            chunk.rank = idx
+
         return output_chunks
 
     def _extract_case_state_terms(self, case_state: Any) -> str:

@@ -13,7 +13,9 @@ def test_hybrid_retrieval_exact_keyword():
     retriever = LegalRetriever()
 
     # Query for employer dismissal grounds
-    results = retriever.retrieve("işçilərin ştatları ixtisarı", top_k=2)
+    results = retriever.retrieve(
+        "Maddə 70 işəgötürən tərəfindən xitam əsasları", top_k=2
+    )
     assert len(results) > 0, "Expected at least one retrieved chunk"
 
     top = results[0]
@@ -24,7 +26,7 @@ def test_hybrid_retrieval_exact_keyword():
     assert 0.0 <= top.score <= 1.0
     assert 0.0 <= top.dense_score <= 1.0
     assert 0.0 <= top.bm25_score <= 1.0
-    assert "ixtisarı" in top.text.lower()
+    assert "xitam" in top.text.lower()
     print("PASS: Exact keyword retrieval for Maddə 70")
 
 
