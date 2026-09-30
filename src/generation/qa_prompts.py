@@ -97,36 +97,38 @@ def build_prompts(question: str, chunks: List[Any]) -> Tuple[str, str]:
 
 
 def call_llm(system: str, user: str) -> str:
-    """Calls the configured OpenAI chat model and returns its text.
-
-    Uses ``settings.OPENAI_API_KEY`` and ``settings.LLM_MODEL_NAME``.
-
+    """Calls the configured Gemini model and returns its text.
+ 
+    Uses ``settings.GEMINI_API_KEY`` and ``settings.LLM_MODEL_NAME``.
+ 
     Args:
         system: System prompt.
         user: User prompt.
-
+ 
     Returns:
-        The model's text output.
-
+        The model's text output (empty string if nothing was
+        returned, e.g. a blocked or truncated response).
+ 
     Raises:
-        RuntimeError: If no OpenAI API key is configured.
+        RuntimeError: If no Gemini API key is configured.
     """
-    from openai import OpenAI
-
-    if not settings.OPENAI_API_KEY:
-        raise RuntimeError("OPENAI_API_KEY is not set (.env).")
-    client = OpenAI(api_key=settings.OPENAI_API_KEY)
-    response = client.chat.completions.create(
+    from google import genai
+    from google.genai import types
+ 
+    if not settings.GEMINI_API_KEY:
+        raise RuntimeError("GEMINI_API_KEY is not set (.env).")
+    client = genai.Client(api_key=settings.GEMINI_API_KEY)
+    response = client.models.generate_content(
         model=settings.LLM_MODEL_NAME,
-        temperature=0,
-        max_tokens=1000,
-        messages=[
-            {"role": "system", "content": system},
-            {"role": "user", "content": user},
-        ],
+        contents=user,
+        config=types.GenerateContentConfig(
+            system_instruction=system,
+            temperature=0,
+            # Headroom: reasoning models count thinking tokens here.
+            max_output_tokens=2048,
+        ),
     )
-    return response.choices[0].message.content or ""
-
+    return response.text or ""
 
 def _fallback(flagged: Optional[List[str]] = None) -> QAResult:
     """Builds an ungrounded result carrying the fixed fallback text."""

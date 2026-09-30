@@ -33,8 +33,8 @@ class Settings(BaseSettings):
 
     # Model identifiers
     EMBEDDING_MODEL_NAME: str = "BAAI/bge-m3"
-    LLM_MODEL_NAME: str = "gpt-4o-mini"
-    OPENAI_API_KEY: Optional[str] = None
+    LLM_MODEL_NAME: str = "gemini-flash-latest"
+    GEMINI_API_KEY: Optional[str] = None
 
     # Retrieval and Guardrail parameters
     RETRIEVAL_TOP_K: int = 5
