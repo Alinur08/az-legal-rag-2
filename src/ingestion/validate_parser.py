@@ -6,6 +6,7 @@ not flagged as suspicious.
 """
 
 import json
+import unicodedata
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -13,6 +14,13 @@ from src.config import settings
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
+
+
+def _az_lower(s: str) -> str:
+    """Lowercases a string with Azerbaijani-aware İ→i and I→ı mapping."""
+    return unicodedata.normalize(
+        "NFC", s.replace("İ", "i").replace("I", "ı").lower()
+    )
 
 # Known anchor articles to spot check in the Azerbaijani Labour Code
 SPOT_CHECK_EXPECTATIONS: Dict[str, Dict[str, List[str]]] = {
@@ -74,8 +82,8 @@ def validate_articles_file(
             continue
 
         item = article_map[art_num]
-        title = item.get("title", "").casefold().replace("i\u0307", "i")
-        content = item.get("content", "").casefold().replace("i\u0307", "i")
+        title = _az_lower(item.get("title", ""))
+        content = _az_lower(item.get("content", ""))
         is_suspicious = item.get("is_suspicious", False)
 
         if is_suspicious:

@@ -13,7 +13,7 @@ This document records the design decisions, implemented files, testing outputs, 
 | **Phase 2** | Clause Chunking (476 chunks), `bge-m3` Embeddings & BM25 | **Xeyransa Gorchuyeva** | `COMPLETED` ✅ |
 | **Phase 3** | Hybrid RRF Retrieval ($k=60$) & Benchmark CLI Demo | **Alinur Zamanli** | `COMPLETED` ✅ |
 | **Phase 4** | Retrieval Confidence Thresholds & Citation Guardrails | *Team* | `COMPLETED` ✅ |
-| **Phase 5** | Grounded One-Shot Legal QA Generation | *Team* | `IN PROGRESS` ⚙️ |
+| **Phase 5** | Grounded One-Shot Legal QA Generation (Google Gemini) | *Team* | `COMPLETED` ✅ |
 | **Phase 6 & 6.5** | Dispute Slot Schema & **Trained ML Classifier (`bge-m3`)** | *Team* | `TODO` 📋 |
 | **Phase 7-8** | CaseState, Session Store & Multi-Turn Dialogue Flow | *Team* | `PLANNED` 📅 |
 | **Phase 9-10** | Legal Complaint Generation (*Ərizə*) & Streamlit App | *Team* | `PLANNED` 📅 |
@@ -118,3 +118,45 @@ This document records the design decisions, implemented files, testing outputs, 
   - `PASS: Module-level retrieve() entrypoint`
   - `ALL RETRIEVAL TESTS PASSED SUCCESSFULLY!`
 - `python -m pycodestyle src tests`: 0 warnings, 100% compliant.
+
+---
+
+## Phase 4 — Guardrails & Safety Thresholds
+
+### Implemented Modules
+- **[src/guardrails/relevance.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/src/guardrails/relevance.py)**:
+  - Threshold filtering with dual conditions: strong semantic threshold ($0.55$) and moderate threshold ($0.45$) paired with Labour Code domain keyword heuristics.
+- **[src/guardrails/citation_validator.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/src/guardrails/citation_validator.py)**:
+  - Regex validation of statutory citations (`Maddə N`, `N-ci maddə`) in model outputs against retrieved context.
+- **[src/guardrails/disclaimer.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/src/guardrails/disclaimer.py)**:
+  - Mandatory legal disclaimer appending function.
+- **[tests/test_guardrails.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/tests/test_guardrails.py)**, **[tests/test_citation_validator.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/tests/test_citation_validator.py)**, **[tests/test_disclaimer.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/tests/test_disclaimer.py)**:
+  - Comprehensive unit test coverage with isolated mock fixtures.
+
+---
+
+## Phase 5 — Grounded One-Shot Legal QA Generation
+
+### Decisions & Architecture
+- **LLM Provider**: Migrated to Google Gemini SDK (`google-genai>=1.0.0`) using production model `gemini-2.5-flash`.
+- **Pipeline**:
+  1. Input Query $\rightarrow$ Hybrid RRF Retrieval ($k=60$).
+  2. Relevance Guardrail check: if confidence below threshold, return standardized fallback notice.
+  3. Context Formatting: inject retrieved article text with exact article numbers and titles.
+  4. Google GenAI call with zero-temperature and strict Azerbaijani system instructions.
+  5. Anti-Hallucination Citation Verification: verify all cited articles exist in retrieved context.
+  6. Centralized Azerbaijani Legal Disclaimer appending.
+- **Stability & Resilience**:
+  - Exponential backoff retry via `tenacity` on transient rate limits, 429, 503, and network spikes.
+  - Reusable cached `genai.Client` instance to eliminate connection overhead.
+  - Safe error recovery returning the fallback disclaimer response instead of runtime crashes.
+
+### Implemented Modules
+- **[src/generation/qa_prompts.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/src/generation/qa_prompts.py)**: End-to-end grounded generation pipeline, retry handling, and CLI runner.
+- **[tests/test_qa_prompts.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/tests/test_qa_prompts.py)**: 6 offline test cases verifying grounded answer passing, ungrounded citation blocking, fallback tokens, and threshold skipping.
+- **[demo.py](file:///c:/Users/User/Desktop/legal-rag/az-legal-rag/demo.py)**: Integrated live benchmark and interactive CLI demonstration showing grounded Gemini legal answers.
+
+### Verification Results
+- `python -m unittest tests/test_qa_prompts.py`: 6/6 tests passed (0.006s).
+- `python -m pycodestyle src/generation/qa_prompts.py demo.py`: 0 warnings, 100% compliant.
+

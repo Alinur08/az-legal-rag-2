@@ -14,6 +14,13 @@ import sys
 from dataclasses import dataclass, field
 from typing import Any, Callable, List, Optional, Tuple
 
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+)
+
 from src.config import settings
 from src.guardrails import (
     add_legal_disclaimer,
@@ -31,10 +38,18 @@ SYSTEM_PROMPT = (
     "məlumat köməkçisisən. Yalnız aşağıda verilən kontekst "
     "maddələrinə əsaslanaraq cavab ver. Kontekstdə olmayan maddə "
     "nömrəsi, müddət, məbləğ və ya hüquqi iddia yazma. Hər hüquqi "
-    "iddiaya 'Maddə N' formatında istinad et. Kontekst sualı "
-    "cavablandırmaq üçün kifayət deyilsə, yalnız bu sözü yaz: "
-    + NOT_FOUND_TOKEN + ". Cavabı Azərbaycan dilində, qısa və aydın "
-    "yaz."
+    "iddiaya 'Maddə N' formatında istinad et. "
+    "Aşağıdakı hallarda kontekstdəki maddələri tətbiq edərək cavab ver: "
+    "1) İstifadəçi birbaşa hüquqi sual versə; "
+    "2) İstifadəçi öz vəziyyətini izah etsə (məs. 'işdən çıxarıblar'); "
+    "3) İstifadəçi dolayı və ya gündəlik sual versə (məs. 'doğum günümdə "
+    "işə getməliyəm?', 'bayramda işləsəm nə olar?') — bu zaman aidiyyatlı "
+    "məzuniyyət, istirahət günü və ya iş vaxtı maddələrini tətbiq edərək "
+    "izah et. "
+    "NOT_FOUND yalnız sualın əmək hüququ ilə HEÇ BİR əlaqəsi olmadıqda "
+    "yaz (məs. yemək resepti, hava, coğrafiya). "
+    "Cavabı Azərbaycan dilində, qısa və aydın yaz."
+    + " Yalnız tam əlaqəsiz olduqda bu sözü yaz: " + NOT_FOUND_TOKEN + "."
 )
 
 USER_TEMPLATE = "Kontekst:\n{context}\n\nSual: {question}"
@@ -96,30 +111,48 @@ def build_prompts(question: str, chunks: List[Any]) -> Tuple[str, str]:
     return SYSTEM_PROMPT, user
 
 
-def call_llm(system: str, user: str) -> str:
-    """Calls the configured Gemini model and returns its text.
- 
-    Uses ``settings.GEMINI_API_KEY`` and ``settings.LLM_MODEL_NAME``.
- 
-    Args:
-        system: System prompt.
-        user: User prompt.
- 
-    Returns:
-        The model's text output (empty string if nothing was
-        returned, e.g. a blocked or truncated response).
- 
-    Raises:
-        RuntimeError: If no Gemini API key is configured.
-    """
-    from google import genai
+_client = None
+
+
+def _get_client():
+    """Returns a cached genai.Client instance."""
+    global _client
+    if _client is None:
+        from google import genai
+
+        if not settings.GEMINI_API_KEY:
+            raise RuntimeError("GEMINI_API_KEY is not set (.env).")
+        _client = genai.Client(api_key=settings.GEMINI_API_KEY)
+    return _client
+
+
+def _is_retryable_error(exc: BaseException) -> bool:
+    """Returns True if exception is a transient network or rate-limit spike."""
+    err_str = str(exc).lower()
+    retryable_markers = (
+        "429", "503", "500", "overloaded", "quota", "resource_exhausted",
+        "rate limit", "spikes", "timeout", "unavailable",
+    )
+    return any(marker in err_str for marker in retryable_markers)
+
+
+@retry(
+    retry=retry_if_exception(_is_retryable_error),
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    stop=stop_after_attempt(3),
+    reraise=True,
+)
+def _generate_with_retry(
+    client: Any,
+    model: str,
+    system: str,
+    user: str,
+) -> str:
+    """Generates content with automatic exponential backoff retries."""
     from google.genai import types
- 
-    if not settings.GEMINI_API_KEY:
-        raise RuntimeError("GEMINI_API_KEY is not set (.env).")
-    client = genai.Client(api_key=settings.GEMINI_API_KEY)
+
     response = client.models.generate_content(
-        model=settings.LLM_MODEL_NAME,
+        model=model,
         contents=user,
         config=types.GenerateContentConfig(
             system_instruction=system,
@@ -129,6 +162,32 @@ def call_llm(system: str, user: str) -> str:
         ),
     )
     return response.text or ""
+
+
+def call_llm(system: str, user: str) -> str:
+    """Calls the configured Gemini model with exponential backoff retries.
+
+    Uses ``settings.GEMINI_API_KEY`` and ``settings.LLM_MODEL_NAME``.
+
+    Args:
+        system: System prompt.
+        user: User prompt.
+
+    Returns:
+        The model's text output (empty string if nothing was
+        returned, e.g. a blocked or truncated response).
+
+    Raises:
+        RuntimeError: If no Gemini API key is configured.
+    """
+    client = _get_client()
+    return _generate_with_retry(
+        client=client,
+        model=settings.LLM_MODEL_NAME,
+        system=system,
+        user=user,
+    )
+
 
 def _fallback(flagged: Optional[List[str]] = None) -> QAResult:
     """Builds an ungrounded result carrying the fixed fallback text."""
@@ -170,7 +229,13 @@ def answer_question(
         return _fallback()
 
     system, user = build_prompts(question, chunks)
-    raw = (llm_fn(system, user) or "").strip()
+    try:
+        raw = (llm_fn(system, user) or "").strip()
+    except AssertionError:
+        raise
+    except Exception as exc:
+        logger.error("LLM call failed after retries: %s", exc)
+        return _fallback()
 
     if not raw or NOT_FOUND_TOKEN in raw:
         logger.info("LLM reported insufficient context.")
@@ -188,6 +253,8 @@ def answer_question(
 
 def main(argv: Optional[List[str]] = None) -> None:
     """CLI entrypoint: prints the answer and cited sources."""
+    if sys.stdout.encoding != "utf-8":
+        sys.stdout.reconfigure(encoding="utf-8")
     args = sys.argv[1:] if argv is None else argv
     if not args:
         print("Usage: python -m src.generation.qa_prompts <sual>")

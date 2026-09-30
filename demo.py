@@ -8,6 +8,7 @@ Azerbaijani Labour Code.
 import argparse
 import sys
 from src.config import settings
+from src.generation.qa_prompts import answer_question
 from src.guardrails import is_relevant
 from src.ingestion.validate_parser import validate_articles_file
 from src.retrieval.retriever import LegalRetriever
@@ -17,7 +18,7 @@ def print_banner():
     """Prints presentation header."""
     print("=" * 70)
     print("   AZ-LEGAL-RAG: ƏMƏK MƏCƏLLƏSİ RAG ASSİSTENTİ (DEMO & EVAL)")
-    print("   Phases 0-4: Ingestion, Chunking, Hybrid Retrieval & Guardrails")
+    print("   Phases 0-5: Ingestion, Chunking, Retrieval, Guardrails & QA")
     print("=" * 70)
 
 
@@ -29,8 +30,8 @@ def run_benchmark():
     for line in report:
         print(f"  {line}")
 
-    print("\n[2] LIVE HYBRID RETRIEVAL BENCHMARK:")
-    print("    (Dense bge-m3 + BM25 Fusion across 325 articles)")
+    print("\n[2] LIVE HYBRID RETRIEVAL & GROUNDED QA BENCHMARK:")
+    print("    (Dense bge-m3 + BM25 Fusion + Gemini LLM Grounded Generation)")
     test_queries = [
         (
             "İşçilərin ştat ixtisarı",
@@ -83,6 +84,19 @@ def run_benchmark():
             body_preview = " ".join(snippet_lines[1:])[:220]
             print(f"    Məzmun (Snippet): {body_preview}...")
 
+        if settings.GEMINI_API_KEY:
+            qa_res = answer_question(
+                query,
+                retrieve_fn=lambda q, top_k=None, _r=results: _r,
+            )
+            print("\n  🤖 [PHASE 5: GEMINI ƏSASLANDIRILMIŞ CAVAB]")
+            print(f"  {qa_res.answer}")
+        else:
+            print(
+                "\n  ℹ️ [PHASE 5 QA]: GEMINI_API_KEY (.env) təyin "
+                "edildikdə canlı generativ cavab aktivləşir."
+            )
+
     print("\n" + "=" * 70)
     print("DEMO TAMAMLANDI: Bütün maddələr retrieval ilə əsaslandırılmışdır.")
     print("=" * 70)
@@ -103,7 +117,9 @@ def run_interactive():
                 print("Çıxılır...")
                 break
 
-            results = retriever.retrieve(query, top_k=3)
+            results = retriever.retrieve(
+                query, top_k=settings.RETRIEVAL_TOP_K
+            )
             if not results or not is_relevant(query, results):
                 print("\n  🛡️ [QORUYUCU MEXANİZM (GUARDRAIL) İŞƏ DÜŞDÜ]")
                 print(
@@ -124,7 +140,18 @@ def run_interactive():
                 first_lines = r.text.split("\n")[:4]
                 print("  " + "\n  ".join(first_lines))
 
-            print(f"\n{settings.LEGAL_DISCLAIMER_AZ}")
+            if settings.GEMINI_API_KEY:
+                print("\n  🤖 Əsaslandırılmış hüquqi cavab hazırlanır...")
+                qa_res = answer_question(
+                    query,
+                    retrieve_fn=lambda q, top_k=None, _r=results: _r,
+                )
+                print("\n" + "=" * 70)
+                print("🤖 ƏSASLANDIRILMIŞ HÜQUQİ CAVAB (PHASE 5):")
+                print(qa_res.answer)
+                print("=" * 70)
+            else:
+                print(f"\n{settings.LEGAL_DISCLAIMER_AZ}")
         except (KeyboardInterrupt, EOFError):
             print("\nÇıxılır...")
             break

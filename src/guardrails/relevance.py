@@ -1,5 +1,6 @@
 """Simple relevance check using dense similarity and labour-law keywords."""
 
+import re
 from typing import TYPE_CHECKING, List
 
 if TYPE_CHECKING:
@@ -12,6 +13,9 @@ LABOUR_KEYWORDS = (
     "işçi",
     "işəgötürən",
     "işdən çıxar",
+    "işdən",
+    "qov",
+    "qovul",
     "xitam",
     "maaş",
     "əmək haqqı",
@@ -19,6 +23,16 @@ LABOUR_KEYWORDS = (
     "ixtisar",
     "iş vaxtı",
     "əlavə iş",
+    "maddə",
+    "müqavilə",
+    "kompensasiya",
+    "bərpa",
+    "cərimə",
+    "sınaq",
+)
+
+ARTICLE_PATTERN = re.compile(
+    r"(?:maddə\s*\d+|\d+-(?:ci|cı|cu|cü)\s*maddə)", re.IGNORECASE
 )
 
 
@@ -35,12 +49,17 @@ def is_relevant(
     """
     if not results:
         return False
+
+    # Azerbaijani uppercase I and İ need their matching lowercase forms.
+    normalized_query = query.replace("İ", "i").replace("I", "ı").lower()
+
+    if ARTICLE_PATTERN.search(normalized_query):
+        return True
+
     best_dense_score = max(result.dense_score for result in results)
     if best_dense_score >= strong_threshold:
         return True
 
-    # Azerbaijani uppercase I and İ need their matching lowercase forms.
-    normalized_query = query.replace("İ", "i").replace("I", "ı").lower()
     return best_dense_score >= moderate_threshold and any(
         keyword in normalized_query for keyword in LABOUR_KEYWORDS
     )

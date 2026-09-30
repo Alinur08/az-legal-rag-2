@@ -4,6 +4,7 @@ Implements Reciprocal Rank Fusion (RRF) and weighted score fusion across
 BM25 lexical matching and ChromaDB dense cosine similarity for legal queries.
 """
 
+import re
 from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Optional
 
@@ -111,7 +112,46 @@ class LegalRetriever:
             if extra_terms:
                 effective_query = f"{effective_query} {extra_terms}"
 
+        # Expand colloquial labour dispute phrasings
+        # Replace Azerbaijani-specific uppercase letters BEFORE .lower() so
+        # that locale-insensitive Windows lowercasing does not leave İ/I intact.
+        normalized_q = (
+            effective_query
+            .replace("İ", "i")
+            .replace("I", "ı")
+            .lower()
+        )
+        colloquial_expansions = []
+        colloquial_dismissal_words = (
+            "qov", "qovul", "qovdular",
+            "çıxarıldım", "çıxardılar", "çıxarıblar",
+        )
+        if any(w in normalized_q for w in colloquial_dismissal_words):
+            colloquial_expansions.append(
+                "işdən çıxarılma əmək müqaviləsinə xitam ləğv"
+            )
+        if any(w in normalized_q for w in (
+            "maaşımı vermirlər", "maaş gecikir", "pul vermirlər"
+        )):
+            colloquial_expansions.append(
+                "əmək haqqının ödənilməsi müddəti gecikdirilməsi"
+            )
+        if colloquial_expansions:
+            effective_query = (
+                f"{effective_query} {' '.join(colloquial_expansions)}"
+            )
+
         self._ensure_bm25_loaded()
+
+        # Check if query directly references a specific statutory article
+        art_match = re.search(
+            r"(?:maddə\s*(\d+)|\b(\d+)-(?:ci|cı|cu|cü)\s*maddə)",
+            query,
+            re.IGNORECASE,
+        )
+        targeted_art = (
+            art_match.group(1) or art_match.group(2) if art_match else None
+        )
 
         # Fetch more candidates for rank fusion
         candidate_k = max(k * 3, 15)
@@ -134,6 +174,35 @@ class LegalRetriever:
             bm25_weight=bm25_weight,
             top_k=k,
         )
+
+        if targeted_art:
+            matching = [
+                c for c in self.bm25_mgr.chunks
+                if str(c.article_number) == targeted_art
+            ]
+            targeted_chunks = [
+                RetrievedChunk(
+                    chunk_id=c.chunk_id,
+                    article_number=str(c.article_number),
+                    title=c.title,
+                    section=c.section,
+                    chapter=c.chapter,
+                    text=c.text,
+                    score=1.0,
+                    dense_score=1.0,
+                    bm25_score=1.0,
+                    rank=idx,
+                    page_start=c.page_start,
+                    page_end=c.page_end,
+                )
+                for idx, c in enumerate(matching, start=1)
+            ]
+            if targeted_chunks:
+                existing_cids = {c.chunk_id for c in targeted_chunks}
+                combined = targeted_chunks + [
+                    c for c in fused_chunks if c.chunk_id not in existing_cids
+                ]
+                return combined[:k]
 
         return fused_chunks
 
@@ -174,9 +243,27 @@ class LegalRetriever:
 
         # Normalize combined RRF score to [0.0, 1.0]
         max_rrf = max(rrf_scores.values()) if rrf_scores else 1.0
-        sorted_cids = sorted(
+        raw_sorted_cids = sorted(
             rrf_scores.keys(), key=lambda c: rrf_scores[c], reverse=True
-        )[:top_k]
+        )
+
+        # Select top candidates with article diversification (max 2 chunks/art)
+        sorted_cids: List[str] = []
+        article_counts: Dict[str, int] = {}
+        for cid in raw_sorted_cids:
+            art_num = str(chunk_map[cid].get("article_number", ""))
+            if article_counts.get(art_num, 0) < 2:
+                sorted_cids.append(cid)
+                article_counts[art_num] = article_counts.get(art_num, 0) + 1
+            if len(sorted_cids) >= top_k:
+                break
+
+        if len(sorted_cids) < top_k:
+            for cid in raw_sorted_cids:
+                if cid not in sorted_cids:
+                    sorted_cids.append(cid)
+                if len(sorted_cids) >= top_k:
+                    break
 
         output_chunks: List[RetrievedChunk] = []
         for rank_pos, cid in enumerate(sorted_cids, start=1):

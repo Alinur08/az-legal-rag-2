@@ -23,7 +23,7 @@ _CITATION_PATTERN = re.compile(
     rf"(?<![\w.]){_ORDINAL}"
     rf"(?:\s*(?:,\s*(?:və\s+)?|və\s+){_ORDINAL})*"
     r"\s+maddə\w*\b"
-    r"|\bmaddə\s+[0-9]+\b",
+    r"|\bmaddə\s+[0-9]+(?:[.-][0-9]+)?\b",
     re.IGNORECASE,
 )
 
