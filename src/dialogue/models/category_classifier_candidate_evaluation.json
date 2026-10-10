@@ -1,0 +1,1517 @@
+{
+  "created_utc": "2026-10-10T20:19:34.394865+00:00",
+  "dataset_sha256": "8cb9774da35c9837c9add9e4a43dc7c32a5952054971c3d8b523ea7d975088b2",
+  "embedding_model": "BAAI/bge-m3",
+  "embedding_shape": [
+    80,
+    1024
+  ],
+  "random_state": 42,
+  "train_indices": [
+    61,
+    15,
+    5,
+    12,
+    55,
+    26,
+    39,
+    47,
+    65,
+    69,
+    10,
+    9,
+    31,
+    32,
+    50,
+    29,
+    37,
+    49,
+    77,
+    62,
+    8,
+    40,
+    53,
+    56,
+    24,
+    76,
+    68,
+    2,
+    45,
+    35,
+    75,
+    21,
+    19,
+    73,
+    58,
+    30,
+    54,
+    20,
+    78,
+    71,
+    38,
+    60,
+    25,
+    13,
+    44,
+    28,
+    3,
+    6,
+    7,
+    51,
+    16,
+    41,
+    72,
+    4,
+    52,
+    14,
+    23,
+    63,
+    64,
+    59,
+    18,
+    79,
+    42,
+    27
+  ],
+  "test_indices": [
+    36,
+    33,
+    70,
+    11,
+    66,
+    22,
+    1,
+    46,
+    34,
+    43,
+    48,
+    0,
+    57,
+    17,
+    67,
+    74
+  ],
+  "C": 1,
+  "threshold": 0.32,
+  "cv_scores": {
+    "0.1": [
+      0.8461538461538461,
+      0.6923076923076923,
+      0.6923076923076923,
+      0.7692307692307693,
+      1.0
+    ],
+    "1": [
+      1.0,
+      0.9230769230769231,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "10": [
+      1.0,
+      0.9230769230769231,
+      1.0,
+      0.9230769230769231,
+      1.0
+    ],
+    "100": [
+      1.0,
+      0.9230769230769231,
+      1.0,
+      0.9230769230769231,
+      1.0
+    ]
+  },
+  "accuracy": 0.9375,
+  "classification_report": {
+    "DENIED_OR_UNPAID_LEAVE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "UNLAWFUL_DISMISSAL": {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1-score": 0.8571428571428571,
+      "support": 4.0
+    },
+    "UNPAID_OVERTIME": {
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1-score": 0.8888888888888888,
+      "support": 4.0
+    },
+    "UNPAID_WAGES": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "accuracy": 0.9375,
+    "macro avg": {
+      "precision": 0.95,
+      "recall": 0.9375,
+      "f1-score": 0.9365079365079365,
+      "support": 16.0
+    },
+    "weighted avg": {
+      "precision": 0.95,
+      "recall": 0.9375,
+      "f1-score": 0.9365079365079365,
+      "support": 16.0
+    }
+  },
+  "confusion_matrix_labels": [
+    "DENIED_OR_UNPAID_LEAVE",
+    "UNLAWFUL_DISMISSAL",
+    "UNPAID_OVERTIME",
+    "UNPAID_WAGES"
+  ],
+  "confusion_matrix": [
+    [
+      4,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      3,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      4,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      4
+    ]
+  ],
+  "threshold_coverage": 0.875,
+  "accepted_accuracy": 1.0,
+  "abstention_rate": 0.125,
+  "accepted_count": 14,
+  "threshold_selection": {
+    "procedure": "5-fold outer OOF on 64 training rows; 4-fold inner training-only C selection; grid 0.25..0.80 by 0.01; maximize coverage subject to accepted accuracy >=0.95 and coverage >=0.50; ties prefer accuracy then higher threshold",
+    "target_accepted_accuracy": 0.95,
+    "minimum_coverage": 0.5,
+    "selected": {
+      "threshold": 0.32,
+      "accepted_count": 64,
+      "coverage": 1.0,
+      "abstention_rate": 0.0,
+      "accepted_accuracy": 0.984375
+    },
+    "threshold_table": [
+      {
+        "threshold": 0.25,
+        "accepted_count": 64,
+        "coverage": 1.0,
+        "abstention_rate": 0.0,
+        "accepted_accuracy": 0.984375
+      },
+      {
+        "threshold": 0.26,
+        "accepted_count": 64,
+        "coverage": 1.0,
+        "abstention_rate": 0.0,
+        "accepted_accuracy": 0.984375
+      },
+      {
+        "threshold": 0.27,
+        "accepted_count": 64,
+        "coverage": 1.0,
+        "abstention_rate": 0.0,
+        "accepted_accuracy": 0.984375
+      },
+      {
+        "threshold": 0.28,
+        "accepted_count": 64,
+        "coverage": 1.0,
+        "abstention_rate": 0.0,
+        "accepted_accuracy": 0.984375
+      },
+      {
+        "threshold": 0.29,
+        "accepted_count": 64,
+        "coverage": 1.0,
+        "abstention_rate": 0.0,
+        "accepted_accuracy": 0.984375
+      },
+      {
+        "threshold": 0.3,
+        "accepted_count": 64,
+        "coverage": 1.0,
+        "abstention_rate": 0.0,
+        "accepted_accuracy": 0.984375
+      },
+      {
+        "threshold": 0.31,
+        "accepted_count": 64,
+        "coverage": 1.0,
+        "abstention_rate": 0.0,
+        "accepted_accuracy": 0.984375
+      },
+      {
+        "threshold": 0.32,
+        "accepted_count": 64,
+        "coverage": 1.0,
+        "abstention_rate": 0.0,
+        "accepted_accuracy": 0.984375
+      },
+      {
+        "threshold": 0.33,
+        "accepted_count": 62,
+        "coverage": 0.96875,
+        "abstention_rate": 0.03125,
+        "accepted_accuracy": 0.9838709677419355
+      },
+      {
+        "threshold": 0.34,
+        "accepted_count": 60,
+        "coverage": 0.9375,
+        "abstention_rate": 0.0625,
+        "accepted_accuracy": 0.9833333333333333
+      },
+      {
+        "threshold": 0.35,
+        "accepted_count": 58,
+        "coverage": 0.90625,
+        "abstention_rate": 0.09375,
+        "accepted_accuracy": 0.9827586206896551
+      },
+      {
+        "threshold": 0.36,
+        "accepted_count": 55,
+        "coverage": 0.859375,
+        "abstention_rate": 0.140625,
+        "accepted_accuracy": 0.9818181818181818
+      },
+      {
+        "threshold": 0.37,
+        "accepted_count": 52,
+        "coverage": 0.8125,
+        "abstention_rate": 0.1875,
+        "accepted_accuracy": 0.9807692307692307
+      },
+      {
+        "threshold": 0.38,
+        "accepted_count": 52,
+        "coverage": 0.8125,
+        "abstention_rate": 0.1875,
+        "accepted_accuracy": 0.9807692307692307
+      },
+      {
+        "threshold": 0.39,
+        "accepted_count": 51,
+        "coverage": 0.796875,
+        "abstention_rate": 0.203125,
+        "accepted_accuracy": 0.9803921568627451
+      },
+      {
+        "threshold": 0.4,
+        "accepted_count": 45,
+        "coverage": 0.703125,
+        "abstention_rate": 0.296875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.41,
+        "accepted_count": 43,
+        "coverage": 0.671875,
+        "abstention_rate": 0.328125,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.42,
+        "accepted_count": 40,
+        "coverage": 0.625,
+        "abstention_rate": 0.375,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.43,
+        "accepted_count": 35,
+        "coverage": 0.546875,
+        "abstention_rate": 0.453125,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.44,
+        "accepted_count": 32,
+        "coverage": 0.5,
+        "abstention_rate": 0.5,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.45,
+        "accepted_count": 31,
+        "coverage": 0.484375,
+        "abstention_rate": 0.515625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.46,
+        "accepted_count": 29,
+        "coverage": 0.453125,
+        "abstention_rate": 0.546875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.47,
+        "accepted_count": 28,
+        "coverage": 0.4375,
+        "abstention_rate": 0.5625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.48,
+        "accepted_count": 27,
+        "coverage": 0.421875,
+        "abstention_rate": 0.578125,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.49,
+        "accepted_count": 25,
+        "coverage": 0.390625,
+        "abstention_rate": 0.609375,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.5,
+        "accepted_count": 24,
+        "coverage": 0.375,
+        "abstention_rate": 0.625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.51,
+        "accepted_count": 22,
+        "coverage": 0.34375,
+        "abstention_rate": 0.65625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.52,
+        "accepted_count": 22,
+        "coverage": 0.34375,
+        "abstention_rate": 0.65625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.53,
+        "accepted_count": 20,
+        "coverage": 0.3125,
+        "abstention_rate": 0.6875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.54,
+        "accepted_count": 20,
+        "coverage": 0.3125,
+        "abstention_rate": 0.6875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.55,
+        "accepted_count": 20,
+        "coverage": 0.3125,
+        "abstention_rate": 0.6875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.56,
+        "accepted_count": 18,
+        "coverage": 0.28125,
+        "abstention_rate": 0.71875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.57,
+        "accepted_count": 17,
+        "coverage": 0.265625,
+        "abstention_rate": 0.734375,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.58,
+        "accepted_count": 16,
+        "coverage": 0.25,
+        "abstention_rate": 0.75,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.59,
+        "accepted_count": 15,
+        "coverage": 0.234375,
+        "abstention_rate": 0.765625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.6,
+        "accepted_count": 15,
+        "coverage": 0.234375,
+        "abstention_rate": 0.765625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.61,
+        "accepted_count": 15,
+        "coverage": 0.234375,
+        "abstention_rate": 0.765625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.62,
+        "accepted_count": 15,
+        "coverage": 0.234375,
+        "abstention_rate": 0.765625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.63,
+        "accepted_count": 14,
+        "coverage": 0.21875,
+        "abstention_rate": 0.78125,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.64,
+        "accepted_count": 14,
+        "coverage": 0.21875,
+        "abstention_rate": 0.78125,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.65,
+        "accepted_count": 13,
+        "coverage": 0.203125,
+        "abstention_rate": 0.796875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.66,
+        "accepted_count": 13,
+        "coverage": 0.203125,
+        "abstention_rate": 0.796875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.67,
+        "accepted_count": 13,
+        "coverage": 0.203125,
+        "abstention_rate": 0.796875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.68,
+        "accepted_count": 11,
+        "coverage": 0.171875,
+        "abstention_rate": 0.828125,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.69,
+        "accepted_count": 10,
+        "coverage": 0.15625,
+        "abstention_rate": 0.84375,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.7,
+        "accepted_count": 10,
+        "coverage": 0.15625,
+        "abstention_rate": 0.84375,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.71,
+        "accepted_count": 9,
+        "coverage": 0.140625,
+        "abstention_rate": 0.859375,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.72,
+        "accepted_count": 8,
+        "coverage": 0.125,
+        "abstention_rate": 0.875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.73,
+        "accepted_count": 8,
+        "coverage": 0.125,
+        "abstention_rate": 0.875,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.74,
+        "accepted_count": 7,
+        "coverage": 0.109375,
+        "abstention_rate": 0.890625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.75,
+        "accepted_count": 6,
+        "coverage": 0.09375,
+        "abstention_rate": 0.90625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.76,
+        "accepted_count": 6,
+        "coverage": 0.09375,
+        "abstention_rate": 0.90625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.77,
+        "accepted_count": 6,
+        "coverage": 0.09375,
+        "abstention_rate": 0.90625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.78,
+        "accepted_count": 6,
+        "coverage": 0.09375,
+        "abstention_rate": 0.90625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.79,
+        "accepted_count": 6,
+        "coverage": 0.09375,
+        "abstention_rate": 0.90625,
+        "accepted_accuracy": 1.0
+      },
+      {
+        "threshold": 0.8,
+        "accepted_count": 5,
+        "coverage": 0.078125,
+        "abstention_rate": 0.921875,
+        "accepted_accuracy": 1.0
+      }
+    ],
+    "oof_overall_accuracy": 0.984375,
+    "folds": [
+      {
+        "fold": 0,
+        "C": 10,
+        "fit_dataset_indices": [
+          15,
+          12,
+          39,
+          47,
+          69,
+          10,
+          9,
+          32,
+          50,
+          29,
+          37,
+          49,
+          77,
+          62,
+          8,
+          40,
+          53,
+          24,
+          76,
+          68,
+          2,
+          45,
+          35,
+          75,
+          21,
+          19,
+          58,
+          30,
+          54,
+          20,
+          78,
+          71,
+          38,
+          60,
+          25,
+          3,
+          6,
+          7,
+          51,
+          16,
+          41,
+          72,
+          4,
+          52,
+          23,
+          63,
+          59,
+          18,
+          79,
+          42,
+          27
+        ],
+        "validation_dataset_indices": [
+          61,
+          5,
+          55,
+          26,
+          65,
+          31,
+          56,
+          73,
+          13,
+          44,
+          28,
+          14,
+          64
+        ],
+        "inner_accuracy": {
+          "0.1": 0.5721153846153847,
+          "1": 0.9214743589743589,
+          "10": 0.9615384615384616,
+          "100": 0.9615384615384616
+        }
+      },
+      {
+        "fold": 1,
+        "C": 1,
+        "fit_dataset_indices": [
+          61,
+          5,
+          12,
+          55,
+          26,
+          47,
+          65,
+          10,
+          9,
+          31,
+          32,
+          50,
+          29,
+          37,
+          77,
+          62,
+          8,
+          53,
+          56,
+          76,
+          68,
+          2,
+          45,
+          35,
+          75,
+          21,
+          73,
+          30,
+          54,
+          20,
+          78,
+          38,
+          60,
+          13,
+          44,
+          28,
+          3,
+          6,
+          51,
+          16,
+          41,
+          72,
+          4,
+          52,
+          14,
+          23,
+          63,
+          64,
+          59,
+          42,
+          27
+        ],
+        "validation_dataset_indices": [
+          15,
+          39,
+          69,
+          49,
+          40,
+          24,
+          19,
+          58,
+          71,
+          25,
+          7,
+          18,
+          79
+        ],
+        "inner_accuracy": {
+          "0.1": 0.6314102564102564,
+          "1": 1.0,
+          "10": 1.0,
+          "100": 1.0
+        }
+      },
+      {
+        "fold": 2,
+        "C": 10,
+        "fit_dataset_indices": [
+          61,
+          15,
+          5,
+          55,
+          26,
+          39,
+          47,
+          65,
+          69,
+          10,
+          31,
+          32,
+          29,
+          49,
+          77,
+          62,
+          8,
+          40,
+          53,
+          56,
+          24,
+          76,
+          2,
+          35,
+          21,
+          19,
+          73,
+          58,
+          30,
+          20,
+          78,
+          71,
+          38,
+          25,
+          13,
+          44,
+          28,
+          3,
+          6,
+          7,
+          51,
+          16,
+          41,
+          72,
+          14,
+          63,
+          64,
+          59,
+          18,
+          79,
+          42
+        ],
+        "validation_dataset_indices": [
+          12,
+          9,
+          50,
+          37,
+          68,
+          45,
+          75,
+          54,
+          60,
+          4,
+          52,
+          23,
+          27
+        ],
+        "inner_accuracy": {
+          "0.1": 0.514423076923077,
+          "1": 0.9615384615384616,
+          "10": 0.9807692307692308,
+          "100": 0.9807692307692308
+        }
+      },
+      {
+        "fold": 3,
+        "C": 1,
+        "fit_dataset_indices": [
+          61,
+          15,
+          5,
+          12,
+          55,
+          26,
+          39,
+          47,
+          65,
+          69,
+          10,
+          9,
+          31,
+          32,
+          50,
+          37,
+          49,
+          77,
+          62,
+          40,
+          53,
+          56,
+          24,
+          68,
+          45,
+          75,
+          19,
+          73,
+          58,
+          54,
+          20,
+          78,
+          71,
+          38,
+          60,
+          25,
+          13,
+          44,
+          28,
+          3,
+          6,
+          7,
+          4,
+          52,
+          14,
+          23,
+          64,
+          59,
+          18,
+          79,
+          27
+        ],
+        "validation_dataset_indices": [
+          29,
+          8,
+          76,
+          2,
+          35,
+          21,
+          30,
+          51,
+          16,
+          41,
+          72,
+          63,
+          42
+        ],
+        "inner_accuracy": {
+          "0.1": 0.514423076923077,
+          "1": 0.9615384615384616,
+          "10": 0.9615384615384616,
+          "100": 0.9615384615384616
+        }
+      },
+      {
+        "fold": 4,
+        "C": 1,
+        "fit_dataset_indices": [
+          61,
+          15,
+          5,
+          12,
+          55,
+          26,
+          39,
+          65,
+          69,
+          9,
+          31,
+          50,
+          29,
+          37,
+          49,
+          8,
+          40,
+          56,
+          24,
+          76,
+          68,
+          2,
+          45,
+          35,
+          75,
+          21,
+          19,
+          73,
+          58,
+          30,
+          54,
+          71,
+          60,
+          25,
+          13,
+          44,
+          28,
+          7,
+          51,
+          16,
+          41,
+          72,
+          4,
+          52,
+          14,
+          23,
+          63,
+          64,
+          18,
+          79,
+          42,
+          27
+        ],
+        "validation_dataset_indices": [
+          47,
+          10,
+          32,
+          77,
+          62,
+          53,
+          20,
+          78,
+          38,
+          3,
+          6,
+          59
+        ],
+        "inner_accuracy": {
+          "0.1": 0.6923076923076923,
+          "1": 0.9615384615384616,
+          "10": 0.9615384615384616,
+          "100": 0.9615384615384616
+        }
+      }
+    ],
+    "oof_rows": [
+      {
+        "dataset_index": 61,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.7365771668590179
+      },
+      {
+        "dataset_index": 15,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.3327298907719882
+      },
+      {
+        "dataset_index": 5,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.8875246403811841
+      },
+      {
+        "dataset_index": 12,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.5236401912115676
+      },
+      {
+        "dataset_index": 55,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.740269470997099
+      },
+      {
+        "dataset_index": 26,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.427403134640937
+      },
+      {
+        "dataset_index": 39,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.36469364553477385
+      },
+      {
+        "dataset_index": 47,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.4881287615214341
+      },
+      {
+        "dataset_index": 65,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.7190939721763662
+      },
+      {
+        "dataset_index": 69,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.34418046906284083
+      },
+      {
+        "dataset_index": 10,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.3202296036797034
+      },
+      {
+        "dataset_index": 9,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.9018022863372905
+      },
+      {
+        "dataset_index": 31,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.5513334116293521
+      },
+      {
+        "dataset_index": 32,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.4092785696206416
+      },
+      {
+        "dataset_index": 50,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.5623634374851098
+      },
+      {
+        "dataset_index": 29,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.4320285328937623
+      },
+      {
+        "dataset_index": 37,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.7084104990777985
+      },
+      {
+        "dataset_index": 49,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.43427208882261004
+      },
+      {
+        "dataset_index": 77,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.4026638800756717
+      },
+      {
+        "dataset_index": 62,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.42295304429229996
+      },
+      {
+        "dataset_index": 8,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.4100030873308847
+      },
+      {
+        "dataset_index": 40,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.4821898803207753
+      },
+      {
+        "dataset_index": 53,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.38600293261917057
+      },
+      {
+        "dataset_index": 56,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.6893157852682712
+      },
+      {
+        "dataset_index": 24,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.4248436381628089
+      },
+      {
+        "dataset_index": 76,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.520807278599549
+      },
+      {
+        "dataset_index": 68,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.4594007366675908
+      },
+      {
+        "dataset_index": 2,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.4285116609001493
+      },
+      {
+        "dataset_index": 45,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.6215578515094553
+      },
+      {
+        "dataset_index": 35,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.3906563631754724
+      },
+      {
+        "dataset_index": 75,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.4342367660473233
+      },
+      {
+        "dataset_index": 21,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.3976474193998879
+      },
+      {
+        "dataset_index": 19,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.3389485127511871
+      },
+      {
+        "dataset_index": 73,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.7998419300508729
+      },
+      {
+        "dataset_index": 58,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.3574968245443334
+      },
+      {
+        "dataset_index": 30,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.36060707367788003
+      },
+      {
+        "dataset_index": 54,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.5746265016505414
+      },
+      {
+        "dataset_index": 20,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.4117419605681445
+      },
+      {
+        "dataset_index": 78,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.442809078675982
+      },
+      {
+        "dataset_index": 71,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.39805064960070824
+      },
+      {
+        "dataset_index": 38,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.3558362300226569
+      },
+      {
+        "dataset_index": 60,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.5841186015394404
+      },
+      {
+        "dataset_index": 25,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.34467072858789777
+      },
+      {
+        "dataset_index": 13,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.862297554097605
+      },
+      {
+        "dataset_index": 44,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.6715169925638907
+      },
+      {
+        "dataset_index": 28,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.5014361878170916
+      },
+      {
+        "dataset_index": 3,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.4604050108856259
+      },
+      {
+        "dataset_index": 6,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.39424893030167696
+      },
+      {
+        "dataset_index": 7,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.3262887577361491
+      },
+      {
+        "dataset_index": 51,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.41052720695152395
+      },
+      {
+        "dataset_index": 16,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.3563915676912223
+      },
+      {
+        "dataset_index": 41,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.4999982981817691
+      },
+      {
+        "dataset_index": 72,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.45588010576656807
+      },
+      {
+        "dataset_index": 4,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.887083672345865
+      },
+      {
+        "dataset_index": 52,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.47287232998551876
+      },
+      {
+        "dataset_index": 14,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.8469354864387235
+      },
+      {
+        "dataset_index": 23,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.6451244802542867
+      },
+      {
+        "dataset_index": 63,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.39099641584008543
+      },
+      {
+        "dataset_index": 64,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "DENIED_OR_UNPAID_LEAVE",
+        "confidence": 0.5529923869614608
+      },
+      {
+        "dataset_index": 59,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.3650079360586828
+      },
+      {
+        "dataset_index": 18,
+        "true": "UNLAWFUL_DISMISSAL",
+        "predicted": "UNLAWFUL_DISMISSAL",
+        "confidence": 0.5065369260636254
+      },
+      {
+        "dataset_index": 79,
+        "true": "DENIED_OR_UNPAID_LEAVE",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.39208129913926837
+      },
+      {
+        "dataset_index": 42,
+        "true": "UNPAID_OVERTIME",
+        "predicted": "UNPAID_OVERTIME",
+        "confidence": 0.4257370347943805
+      },
+      {
+        "dataset_index": 27,
+        "true": "UNPAID_WAGES",
+        "predicted": "UNPAID_WAGES",
+        "confidence": 0.676023622933669
+      }
+    ]
+  },
+  "limitations": [
+    "80 examples; test support is only four per class",
+    "Test split was previously evaluated; no test metrics used for candidate selection",
+    "No separate labeled out-of-domain validation set",
+    "OOF selection performance is not an independent estimate"
+  ],
+  "held_out": [
+    {
+      "message": "Əmək haqqı borcu ilə bağlı şikayət etmək istəyirəm.",
+      "true": "UNPAID_WAGES",
+      "predicted": "UNPAID_WAGES",
+      "confidence": 0.3287988663975512,
+      "accepted": true
+    },
+    {
+      "message": "Rəhbərlik əmək haqqının ödənilməsini aylarla uzadır.",
+      "true": "UNPAID_WAGES",
+      "predicted": "UNPAID_WAGES",
+      "confidence": 0.3219262414964928,
+      "accepted": true
+    },
+    {
+      "message": "Bir ildən çoxdur işləyirəm və heç vaxt ödənişli məzuniyyət almamışam.",
+      "true": "DENIED_OR_UNPAID_LEAVE",
+      "predicted": "DENIED_OR_UNPAID_LEAVE",
+      "confidence": 0.3148869110511896,
+      "accepted": false
+    },
+    {
+      "message": "Müdiriyyət heç bir izahat vermədən əmək kitabçamı verib məni işdən azad etdi.",
+      "true": "UNLAWFUL_DISMISSAL",
+      "predicted": "UNLAWFUL_DISMISSAL",
+      "confidence": 0.5055810041066877,
+      "accepted": true
+    },
+    {
+      "message": "Təhsil məzuniyyəti üçün ərizə verdim, amma imtina etdilər.",
+      "true": "DENIED_OR_UNPAID_LEAVE",
+      "predicted": "DENIED_OR_UNPAID_LEAVE",
+      "confidence": 0.5846253108319522,
+      "accepted": true
+    },
+    {
+      "message": "Şirkət mənə son üç ayın maaşını borcludur.",
+      "true": "UNPAID_WAGES",
+      "predicted": "UNPAID_WAGES",
+      "confidence": 0.4201485879786479,
+      "accepted": true
+    },
+    {
+      "message": "Dünən müdir məni çağırıb dedi ki, sabahdan işə gəlmə, heç bir əmr də göstərmədi.",
+      "true": "UNLAWFUL_DISMISSAL",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.2835240196976256,
+      "accepted": false
+    },
+    {
+      "message": "Hər həftə 15 saat artıq işləyirəm, bunu heç bir sənəd rəsmiləşdirmir.",
+      "true": "UNPAID_OVERTIME",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.4825799313960787,
+      "accepted": true
+    },
+    {
+      "message": "Şirkət çətin vəziyyətdədir və işçilərə maaş borcu var, öz əmək haqqımı necə alım?",
+      "true": "UNPAID_WAGES",
+      "predicted": "UNPAID_WAGES",
+      "confidence": 0.4295320798486833,
+      "accepted": true
+    },
+    {
+      "message": "Normadan artıq işlədiyim saatlar maaşıma əlavə edilmir.",
+      "true": "UNPAID_OVERTIME",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.5049009636888366,
+      "accepted": true
+    },
+    {
+      "message": "Müdir deyir ki, əlavə işlər vəzifə borcudur və bunun üçün pul verilmir.",
+      "true": "UNPAID_OVERTIME",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.3608179080004456,
+      "accepted": true
+    },
+    {
+      "message": "Məni heç bir xəbərdarlıq etmədən işdən çıxardılar, bunun qanuni olduğunu düşünmürəm.",
+      "true": "UNLAWFUL_DISMISSAL",
+      "predicted": "UNLAWFUL_DISMISSAL",
+      "confidence": 0.4949068596364967,
+      "accepted": true
+    },
+    {
+      "message": "Normadan artıq işlədiyim vaxt üçün əlavə haqq almaq hüququm varmı?",
+      "true": "UNPAID_OVERTIME",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.4167621688410055,
+      "accepted": true
+    },
+    {
+      "message": "Məni heç bir intizam tədbiri görülmədən birbaşa işdən azad etdilər.",
+      "true": "UNLAWFUL_DISMISSAL",
+      "predicted": "UNLAWFUL_DISMISSAL",
+      "confidence": 0.56599144823498,
+      "accepted": true
+    },
+    {
+      "message": "Analıq məzuniyyətindən sonra illik məzuniyyətimi vermirlər.",
+      "true": "DENIED_OR_UNPAID_LEAVE",
+      "predicted": "DENIED_OR_UNPAID_LEAVE",
+      "confidence": 0.49142679499691977,
+      "accepted": true
+    },
+    {
+      "message": "İllik məzuniyyətim müqavilədə yazılandan az günlə verilir.",
+      "true": "DENIED_OR_UNPAID_LEAVE",
+      "predicted": "DENIED_OR_UNPAID_LEAVE",
+      "confidence": 0.3774920678754057,
+      "accepted": true
+    }
+  ],
+  "versions": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.1",
+    "sentence-transformers": "6.1.0",
+    "torch": "2.14.1",
+    "pandas": "3.0.6",
+    "joblib": "1.6.0"
+  },
+  "save_load_probability_match": true,
+  "model_path": "/home/kheyr/projects/az-legal-rag-latest/src/dialogue/models/category_classifier_candidate.pkl"
+}

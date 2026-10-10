@@ -11,6 +11,7 @@ import tempfile
 import unittest
 import zlib
 from pathlib import Path
+from unittest.mock import Mock
 
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -97,6 +98,21 @@ class TestCategoryClassifier(unittest.TestCase):
 
     def test_empty_message_returns_none(self):
         self.assertIsNone(self.make().predict("   "))
+
+    def test_unfitted_predict_does_not_embed(self):
+        embed_fn = Mock(side_effect=AssertionError("Embedding was called"))
+        clf = CategoryClassifier(embed_fn=embed_fn)
+        with self.assertRaisesRegex(RuntimeError, "is not fitted"):
+            clf.predict("sual")
+        embed_fn.assert_not_called()
+
+    def test_unfitted_empty_message_returns_none(self):
+        embed_fn = Mock(side_effect=AssertionError("Embedding was called"))
+        clf = CategoryClassifier(embed_fn=embed_fn)
+        for message in ["", "   ", "\t\n"]:
+            with self.subTest(message=message):
+                self.assertIsNone(clf.predict(message))
+        embed_fn.assert_not_called()
 
     def test_save_and_load_roundtrip(self):
         clf = self.make(threshold=0.3)

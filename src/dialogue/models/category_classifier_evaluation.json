@@ -1,0 +1,323 @@
+{
+  "created_utc": "2026-10-10T20:15:22.773729+00:00",
+  "dataset_sha256": "8cb9774da35c9837c9add9e4a43dc7c32a5952054971c3d8b523ea7d975088b2",
+  "embedding_model": "BAAI/bge-m3",
+  "embedding_shape": [
+    80,
+    1024
+  ],
+  "random_state": 42,
+  "train_indices": [
+    61,
+    15,
+    5,
+    12,
+    55,
+    26,
+    39,
+    47,
+    65,
+    69,
+    10,
+    9,
+    31,
+    32,
+    50,
+    29,
+    37,
+    49,
+    77,
+    62,
+    8,
+    40,
+    53,
+    56,
+    24,
+    76,
+    68,
+    2,
+    45,
+    35,
+    75,
+    21,
+    19,
+    73,
+    58,
+    30,
+    54,
+    20,
+    78,
+    71,
+    38,
+    60,
+    25,
+    13,
+    44,
+    28,
+    3,
+    6,
+    7,
+    51,
+    16,
+    41,
+    72,
+    4,
+    52,
+    14,
+    23,
+    63,
+    64,
+    59,
+    18,
+    79,
+    42,
+    27
+  ],
+  "test_indices": [
+    36,
+    33,
+    70,
+    11,
+    66,
+    22,
+    1,
+    46,
+    34,
+    43,
+    48,
+    0,
+    57,
+    17,
+    67,
+    74
+  ],
+  "C": 1,
+  "threshold": 0.6,
+  "cv_scores": {
+    "0.1": [
+      0.8461538461538461,
+      0.6923076923076923,
+      0.6923076923076923,
+      0.7692307692307693,
+      1.0
+    ],
+    "1": [
+      1.0,
+      0.9230769230769231,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "10": [
+      1.0,
+      0.9230769230769231,
+      1.0,
+      0.9230769230769231,
+      1.0
+    ],
+    "100": [
+      1.0,
+      0.9230769230769231,
+      1.0,
+      0.9230769230769231,
+      1.0
+    ]
+  },
+  "accuracy": 0.9375,
+  "classification_report": {
+    "DENIED_OR_UNPAID_LEAVE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "UNLAWFUL_DISMISSAL": {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1-score": 0.8571428571428571,
+      "support": 4.0
+    },
+    "UNPAID_OVERTIME": {
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1-score": 0.8888888888888888,
+      "support": 4.0
+    },
+    "UNPAID_WAGES": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "accuracy": 0.9375,
+    "macro avg": {
+      "precision": 0.95,
+      "recall": 0.9375,
+      "f1-score": 0.9365079365079365,
+      "support": 16.0
+    },
+    "weighted avg": {
+      "precision": 0.95,
+      "recall": 0.9375,
+      "f1-score": 0.9365079365079365,
+      "support": 16.0
+    }
+  },
+  "confusion_matrix_labels": [
+    "DENIED_OR_UNPAID_LEAVE",
+    "UNLAWFUL_DISMISSAL",
+    "UNPAID_OVERTIME",
+    "UNPAID_WAGES"
+  ],
+  "confusion_matrix": [
+    [
+      4,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      3,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      4,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      4
+    ]
+  ],
+  "threshold_coverage": 0.0,
+  "held_out": [
+    {
+      "message": "Əmək haqqı borcu ilə bağlı şikayət etmək istəyirəm.",
+      "true": "UNPAID_WAGES",
+      "predicted": "UNPAID_WAGES",
+      "confidence": 0.3287988663975512,
+      "accepted": false
+    },
+    {
+      "message": "Rəhbərlik əmək haqqının ödənilməsini aylarla uzadır.",
+      "true": "UNPAID_WAGES",
+      "predicted": "UNPAID_WAGES",
+      "confidence": 0.3219262414964928,
+      "accepted": false
+    },
+    {
+      "message": "Bir ildən çoxdur işləyirəm və heç vaxt ödənişli məzuniyyət almamışam.",
+      "true": "DENIED_OR_UNPAID_LEAVE",
+      "predicted": "DENIED_OR_UNPAID_LEAVE",
+      "confidence": 0.3148869110511896,
+      "accepted": false
+    },
+    {
+      "message": "Müdiriyyət heç bir izahat vermədən əmək kitabçamı verib məni işdən azad etdi.",
+      "true": "UNLAWFUL_DISMISSAL",
+      "predicted": "UNLAWFUL_DISMISSAL",
+      "confidence": 0.5055810041066877,
+      "accepted": false
+    },
+    {
+      "message": "Təhsil məzuniyyəti üçün ərizə verdim, amma imtina etdilər.",
+      "true": "DENIED_OR_UNPAID_LEAVE",
+      "predicted": "DENIED_OR_UNPAID_LEAVE",
+      "confidence": 0.5846253108319522,
+      "accepted": false
+    },
+    {
+      "message": "Şirkət mənə son üç ayın maaşını borcludur.",
+      "true": "UNPAID_WAGES",
+      "predicted": "UNPAID_WAGES",
+      "confidence": 0.4201485879786479,
+      "accepted": false
+    },
+    {
+      "message": "Dünən müdir məni çağırıb dedi ki, sabahdan işə gəlmə, heç bir əmr də göstərmədi.",
+      "true": "UNLAWFUL_DISMISSAL",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.2835240196976256,
+      "accepted": false
+    },
+    {
+      "message": "Hər həftə 15 saat artıq işləyirəm, bunu heç bir sənəd rəsmiləşdirmir.",
+      "true": "UNPAID_OVERTIME",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.4825799313960787,
+      "accepted": false
+    },
+    {
+      "message": "Şirkət çətin vəziyyətdədir və işçilərə maaş borcu var, öz əmək haqqımı necə alım?",
+      "true": "UNPAID_WAGES",
+      "predicted": "UNPAID_WAGES",
+      "confidence": 0.4295320798486833,
+      "accepted": false
+    },
+    {
+      "message": "Normadan artıq işlədiyim saatlar maaşıma əlavə edilmir.",
+      "true": "UNPAID_OVERTIME",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.5049009636888366,
+      "accepted": false
+    },
+    {
+      "message": "Müdir deyir ki, əlavə işlər vəzifə borcudur və bunun üçün pul verilmir.",
+      "true": "UNPAID_OVERTIME",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.3608179080004456,
+      "accepted": false
+    },
+    {
+      "message": "Məni heç bir xəbərdarlıq etmədən işdən çıxardılar, bunun qanuni olduğunu düşünmürəm.",
+      "true": "UNLAWFUL_DISMISSAL",
+      "predicted": "UNLAWFUL_DISMISSAL",
+      "confidence": 0.4949068596364967,
+      "accepted": false
+    },
+    {
+      "message": "Normadan artıq işlədiyim vaxt üçün əlavə haqq almaq hüququm varmı?",
+      "true": "UNPAID_OVERTIME",
+      "predicted": "UNPAID_OVERTIME",
+      "confidence": 0.4167621688410055,
+      "accepted": false
+    },
+    {
+      "message": "Məni heç bir intizam tədbiri görülmədən birbaşa işdən azad etdilər.",
+      "true": "UNLAWFUL_DISMISSAL",
+      "predicted": "UNLAWFUL_DISMISSAL",
+      "confidence": 0.56599144823498,
+      "accepted": false
+    },
+    {
+      "message": "Analıq məzuniyyətindən sonra illik məzuniyyətimi vermirlər.",
+      "true": "DENIED_OR_UNPAID_LEAVE",
+      "predicted": "DENIED_OR_UNPAID_LEAVE",
+      "confidence": 0.49142679499691977,
+      "accepted": false
+    },
+    {
+      "message": "İllik məzuniyyətim müqavilədə yazılandan az günlə verilir.",
+      "true": "DENIED_OR_UNPAID_LEAVE",
+      "predicted": "DENIED_OR_UNPAID_LEAVE",
+      "confidence": 0.3774920678754057,
+      "accepted": false
+    }
+  ],
+  "versions": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.1",
+    "sentence-transformers": "6.1.0",
+    "torch": "2.14.1",
+    "pandas": "3.0.6",
+    "joblib": "1.6.0"
+  },
+  "save_load_probability_match": true,
+  "model_path": "/home/kheyr/projects/az-legal-rag-latest/src/dialogue/models/category_classifier.pkl"
+}

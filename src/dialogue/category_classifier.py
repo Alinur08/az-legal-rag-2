@@ -148,6 +148,8 @@ class CategoryClassifier:
         """
         if not message or not message.strip():
             return None
+        if not self.is_fitted:
+            raise RuntimeError("CategoryClassifier is not fitted.")
         probs = self.predict_proba(self.embed([message.strip()]))[0]
         best = int(np.argmax(probs))
         confidence = float(probs[best])
